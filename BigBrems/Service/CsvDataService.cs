@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks; // Required for Task<>
+using System.Windows;
 using BigBrems.Models;
 
 namespace BigBrems.Services
@@ -12,11 +14,10 @@ namespace BigBrems.Services
         private List<MeasurementRow> _currentFileCache;
         private string _currentCacheId;
 
-        // Helper class to store the raw CSV row data in memory
         private class MeasurementRow : MeasurementData
         {
             public string ChannelId { get; set; }
-            public string Unit { get; set; } // <--- Added to hold the unit from CSV
+            public string Unit { get; set; }
         }
 
         public CsvDataService()
@@ -25,50 +26,81 @@ namespace BigBrems.Services
             _currentFileCache = new List<MeasurementRow>();
         }
 
-        public List<Dataset> GetDatasets()
-        {
-            var list = new List<Dataset>();
-            if (!Directory.Exists(_basePath)) return list;
+        // --- NEW METHODS REQUIRED BY INTERFACE ---
 
-            var files = Directory.GetFiles(_basePath, "*.csv");
-            foreach (var file in files)
-            {
-                var name = Path.GetFileNameWithoutExtension(file);
-                list.Add(new Dataset { Id = name, Name = $"Run: {name}" });
-            }
-            return list;
+        // 1. Fake Login (Always returns true for CSV mode)
+        public Task<bool> AuthenticateAsync()
+        {
+            return Task.FromResult(true);
         }
 
-        public List<Channel> GetChannels(string datasetId)
+        // 2. Fake Data Pools (Returns one "Local Storage" pool)
+        public Task<List<DataPool>> GetDataPoolsAsync()
         {
+            var pools = new List<DataPool>
+            {
+                new DataPool { Id = "LOCAL_CSV", Name = "Local CSV Folder" }
+            };
+            return Task.FromResult(pools);
+        }
+
+        // ----------------------------------------
+
+        public Task<List<Dataset>> GetDatasetsAsync(string poolId)
+        {
+            // We ignore poolId because we just read the folder
+            var list = new List<Dataset>();
+
+            if (Directory.Exists(_basePath))
+            {
+                var files = Directory.GetFiles(_basePath, "*.csv");
+                foreach (var file in files)
+                {
+                    var name = Path.GetFileNameWithoutExtension(file);
+                    list.Add(new Dataset { Id = name, Name = $"File: {name}" });
+                }
+            }
+
+            // Debug fallback
+            if (list.Count == 0)
+            {
+                list.Add(new Dataset { Id = "DEBUG", Name = "No CSVs Found (Check Folder)" });
+            }
+
+            return Task.FromResult(list);
+        }
+
+        public Task<List<Channel>> GetChannelsAsync(string datasetId)
+        {
+            // Note: Since method signature is now Async, we wrap the result
             LoadFileIfNeeded(datasetId);
 
-            return _currentFileCache
+            var channels = _currentFileCache
                     .GroupBy(x => x.ChannelId)
                     .Select(g => new Channel
                     {
                         Id = g.Key,
                         Name = g.Key,
                         Unit = g.First().Unit,
-                        ParentDatasetId = datasetId // <--- IMPORTANT: Tag the source!
+                        ParentDatasetId = datasetId
                     })
                     .ToList();
+
+            return Task.FromResult(channels);
         }
 
-        public List<MeasurementData> GetData(string datasetId, string channelId)
+        public Task<List<MeasurementData>> GetDataAsync(string datasetId, string channelId)
         {
             LoadFileIfNeeded(datasetId);
 
-            return _currentFileCache
+            var data = _currentFileCache
                    .Where(x => x.ChannelId == channelId)
                    .Cast<MeasurementData>()
                    .OrderBy(x => x.Timestamp)
                    .ToList();
+
+            return Task.FromResult(data);
         }
-
-        // Inside CsvDataService.cs
-
-        // ... (previous code)
 
         private void LoadFileIfNeeded(string datasetId)
         {
@@ -83,28 +115,24 @@ namespace BigBrems.Services
             try
             {
                 var lines = File.ReadAllLines(path);
-
-                // Skip header
                 for (int i = 1; i < lines.Length; i++)
                 {
                     var parts = lines[i].Split(',');
-
-                    // Expected CSV: Timestamp, ChannelId, Value, ChannelName, Unit
                     if (parts.Length < 5) continue;
 
                     _currentFileCache.Add(new MeasurementRow
                     {
                         Timestamp = DateTime.Parse(parts[0]),
-                        ChannelId = parts[1], // This is still used for filtering/logic
+                        ChannelId = parts[1],
                         Value = double.Parse(parts[2]),
-                        ChannelName = parts[3], // <--- READ CHANNEL NAME HERE (Index 3)
+                        ChannelName = parts[3],
                         Unit = parts[4].Trim()
                     });
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error reading CSV: {ex.Message}");
+                MessageBox.Show("Error reading file: " + ex.Message);
             }
         }
     }

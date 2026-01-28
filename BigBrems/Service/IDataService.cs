@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
 using BigBrems.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks; // Needed for async/await
 
 namespace BigBrems.Services
 {
     public interface IDataService
     {
-        // 1. Returns a list of all test runs (e.g., "DS_101", "DS_102")
-        List<Dataset> GetDatasets();
+        // 1. Silent Login (Returns true if successful)
+        Task<bool> AuthenticateAsync();
 
-        // 2. Returns the sensors available for a specific test run
-        //    (Now includes the 'Unit' property inside the Channel object)
-        List<Channel> GetChannels(string datasetId);
+        // 2. New Top Level: Data Pools
+        Task<List<DataPool>> GetDataPoolsAsync();
 
-        // 3. Returns the actual rows of data for the dashboard charts/grids
-        List<MeasurementData> GetData(string datasetId, string channelId);
+        // 3. Get Datasets (Now depends on which Pool is selected)
+        Task<List<Dataset>> GetDatasetsAsync(string poolId);
+
+        // 4. Get Channels (Depends on Dataset)
+        Task<List<Channel>> GetChannelsAsync(string datasetId);
+
+        // 5. Get Data
+        Task<List<MeasurementData>> GetDataAsync(string datasetId, string channelId);
     }
 }
