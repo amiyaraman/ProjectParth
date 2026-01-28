@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="BigBrems.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BigBrems.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900"
+             Background="#F5F5F5">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="BigBrems Analytics Dashboard" 
+                   FontSize="28" 
+                   FontWeight="SemiBold" 
+                   Foreground="#333" 
+                   Margin="0,0,0,25"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Select Datasets (Check Multiple)" Grid.Column="0" Margin="0,0,10,0" Padding="5">
+                <ListBox ItemsSource="{Binding Datasets}" Height="120" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Name}" 
+                                      IsChecked="{Binding IsSelected}" 
+                                      Margin="0,2"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
+
+            <GroupBox Header="Select Channels (Check Multiple)" Grid.Column="1" Margin="10,0,0,0" Padding="5">
+                <ListBox ItemsSource="{Binding Channels}" Height="120" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Name}" 
+                                      IsChecked="{Binding IsSelected}"
+                                      Margin="0,2"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
+        </Grid>
+
+        <DataGrid Grid.Row="2" 
+                  ItemsSource="{Binding DisplayData}" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="35"
+                  ColumnHeaderHeight="40"
+                  AlternatingRowBackground="#FAFAFA"
+                  Background="White"
+                  BorderThickness="0">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Setter Property="BorderBrush" Value="#EEE"/>
+                    <Setter Property="Padding" Value="10,0"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat=\{0:yyyy-MM-dd HH:mm:ss\}}" Width="180"/>
+                <DataGridTextColumn Header="Channel Name" Binding="{Binding ChannelName}" Width="250"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="120" FontWeight="Bold"/>
+                <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="*"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+</UserControl>

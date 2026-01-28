@@ -9,7 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="VIew\" />
+    <Folder Include="Dummy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dummy\DS_101.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dummy\DS_102.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

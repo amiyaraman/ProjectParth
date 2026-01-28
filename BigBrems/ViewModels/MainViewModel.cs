@@ -1,121 +1,108 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using BigBrems.Models; // <--- This is crucial now!
+using BigBrems.Models;
+using BigBrems.Services;
 
 namespace BigBrems.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        // --- 1. Collections for the UI ---
+        private readonly IDataService _dataService;
+
+        // UI Collections
         public ObservableCollection<Dataset> Datasets { get; set; }
         public ObservableCollection<Channel> Channels { get; set; }
         public ObservableCollection<MeasurementData> DisplayData { get; set; }
 
-        // --- 2. Selected Properties (Trigger Logic) ---
-
-        private Dataset _selectedDataset;
-        public Dataset SelectedDataset
-        {
-            get { return _selectedDataset; }
-            set
-            {
-                if (_selectedDataset != value)
-                {
-                    _selectedDataset = value;
-                    OnPropertyChanged();
-                    LoadChannels(); // <--- Auto-load channels when Dataset changes
-                }
-            }
-        }
-
-        private Channel _selectedChannel;
-        public Channel SelectedChannel
-        {
-            get { return _selectedChannel; }
-            set
-            {
-                if (_selectedChannel != value)
-                {
-                    _selectedChannel = value;
-                    OnPropertyChanged();
-                    LoadData(); // <--- Auto-load data when Channel changes
-                }
-            }
-        }
-
-        // --- 3. Constructor ---
         public MainViewModel()
         {
-            // Initialize the lists
             Datasets = new ObservableCollection<Dataset>();
             Channels = new ObservableCollection<Channel>();
             DisplayData = new ObservableCollection<MeasurementData>();
 
-            // Load the initial list of datasets
+            _dataService = new CsvDataService();
+
             LoadDatasets();
         }
-
-        // --- 4. Mock Data Logic (Simulating Database/File Read) ---
 
         private void LoadDatasets()
         {
             Datasets.Clear();
-            // In a real app, you would call a DataService here
-            Datasets.Add(new Dataset { Id = "RUN_2023_001", Name = "Track Test: Nürburgring" });
-            Datasets.Add(new Dataset { Id = "RUN_2023_002", Name = "Lab Test: Thermal Stress" });
-            Datasets.Add(new Dataset { Id = "RUN_2023_003", Name = "Dyno: Panic Stop Simulation" });
-        }
-
-        private void LoadChannels()
-        {
-            Channels.Clear();
-            DisplayData.Clear(); // Clear old data to avoid confusion
-
-            if (SelectedDataset == null) return;
-
-            // Mock logic: Add relevant sensors based on what the user picked
-            Channels.Add(new Channel { Id = "SENS_01", Name = "Brake Pressure (FL)", Unit = "bar" });
-            Channels.Add(new Channel { Id = "SENS_02", Name = "Rotor Temperature (FL)", Unit = "°C" });
-            Channels.Add(new Channel { Id = "SENS_03", Name = "Vehicle Speed", Unit = "km/h" });
-
-            // Add extra sensors specifically for the Lab Test dataset
-            if (SelectedDataset.Id == "RUN_2023_002")
+            var list = _dataService.GetDatasets();
+            foreach (var item in list)
             {
-                Channels.Add(new Channel { Id = "SENS_04", Name = "Pad Wear Indicator", Unit = "%" });
+                // Subscribe to the checkbox event
+                item.PropertyChanged += Dataset_PropertyChanged;
+                Datasets.Add(item);
             }
         }
 
-        private void LoadData()
+        // Triggered when you check/uncheck a DATASET
+        private void Dataset_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Dataset.IsSelected))
+            {
+                LoadChannelsFromSelectedDatasets();
+            }
+        }
+
+        private void LoadChannelsFromSelectedDatasets()
+        {
+            // 1. Temporarily detach events to avoid loops while clearing
+            foreach (var ch in Channels) ch.PropertyChanged -= Channel_PropertyChanged;
+            Channels.Clear();
+            DisplayData.Clear();
+
+            // 2. Find all checked datasets
+            var selectedDatasets = Datasets.Where(d => d.IsSelected).ToList();
+
+            // 3. Loop through them and combine all channels
+            foreach (var ds in selectedDatasets)
+            {
+                var newChannels = _dataService.GetChannels(ds.Id);
+                foreach (var ch in newChannels)
+                {
+                    // Update name to include dataset so user knows which is which
+                    // e.g., "Speed (Run 1)"
+                    ch.Name = $"{ch.Name} ({ds.Id})";
+
+                    ch.PropertyChanged += Channel_PropertyChanged; // Listen for clicks
+                    Channels.Add(ch);
+                }
+            }
+        }
+
+        // Triggered when you check/uncheck a CHANNEL
+        private void Channel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Channel.IsSelected))
+            {
+                LoadDataFromSelectedChannels();
+            }
+        }
+
+        private void LoadDataFromSelectedChannels()
         {
             DisplayData.Clear();
 
-            if (SelectedChannel == null) return;
+            // Find all checked channels
+            var selectedChannels = Channels.Where(c => c.IsSelected).ToList();
 
-            // Mock logic: Generate fake data rows
-            var rng = new Random();
-            double baseValue = 50;
-
-            // Adjust base value based on the channel unit
-            if (SelectedChannel.Unit == "°C") baseValue = 450;
-            if (SelectedChannel.Unit == "bar") baseValue = 120;
-
-            for (int i = 0; i < 20; i++)
+            foreach (var ch in selectedChannels)
             {
-                double noise = (rng.NextDouble() * 10) - 5; // Random fluctuation
+                // We need the Dataset ID to ask the service for data
+                // Good thing we added ParentDatasetId to the Channel model!
+                var data = _dataService.GetData(ch.ParentDatasetId, ch.Id);
 
-                DisplayData.Add(new MeasurementData
+                foreach (var row in data)
                 {
-                    Timestamp = DateTime.Now.AddSeconds(-i * 5), // Data every 5 seconds
-                    Value = Math.Round(baseValue + noise, 2),
-                    Status = "OK"
-                });
+                    DisplayData.Add(row);
+                }
             }
         }
 
-        // --- 5. INotifyPropertyChanged Implementation ---
-        // This makes sure the UI updates automatically when variables change
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

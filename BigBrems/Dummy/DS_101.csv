@@ -1,0 +1,7 @@
+Timestamp,Channel,Value,Status,Unit
+2026-01-26T10:00:00,Speed_Front,100.0,OK,km/h
+2026-01-26T10:00:01,Speed_Front,95.5,OK,km/h
+2026-01-26T10:00:02,Speed_Front,88.2,OK,km/h
+2026-01-26T10:00:00,Brake_Pressure,0.0,OK,bar
+2026-01-26T10:00:01,Brake_Pressure,40.5,OK,bar
+2026-01-26T10:00:02,Brake_Pressure,80.2,OK,bar

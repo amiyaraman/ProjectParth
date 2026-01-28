@@ -10,6 +10,7 @@ namespace BigBrems.Models
     {
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }
-        public string Status { get; set; }
+        public string ChannelName { get; set; } // <--- Was "Status", now "ChannelName"
+        public string Unit { get; set; }
     }
 }

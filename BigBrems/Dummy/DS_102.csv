@@ -1,0 +1,7 @@
+Timestamp,Channel,Value,Status,Unit
+2026-01-26T14:00:00,Rotor_Temp_FL,350.0,OK,°C
+2026-01-26T14:00:10,Rotor_Temp_FL,380.5,OK,°C
+2026-01-26T14:00:20,Rotor_Temp_FL,420.1,WARNING,°C
+2026-01-26T14:00:00,Coolant_Temp,90.0,OK,°C
+2026-01-26T14:00:10,Coolant_Temp,92.5,OK,°C
+2026-01-26T14:00:20,Coolant_Temp,95.0,OK,°C
