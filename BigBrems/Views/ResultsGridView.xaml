@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="BigBrems.Views.ResultsGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Background="White" CornerRadius="10" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Opacity="0.04" BlurRadius="15" ShadowDepth="3"/>
+        </Border.Effect>
+
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{DynamicResource StrResults}" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" Foreground="#1E293B"/>
+
+            <DataGrid ItemsSource="{Binding SearchResults}" 
+                      SelectedItem="{Binding SelectedDataset , Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      SelectionMode="Single"
+                      IsReadOnly="True"
+                      >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dataset ID" Binding="{Binding Id}" Width="1.5*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Properties[Name]}" Width="1.5*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Properties[Description]}" Width="2*"/>
+                    <DataGridTextColumn Header="Brand" Binding="{Binding Properties[Brand]}" Width="1*"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Properties[Status]}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>

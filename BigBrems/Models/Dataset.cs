@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BigBrems.Models
 {
-    public class Dataset : ObservableObject // Inherit from our new helper
+    public class Dataset : ObservableObject
     {
+        // The core properties we absolutely need for the app logic to function
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string DataType { get; set; }
+
+        // A flexible dictionary to hold ANY other values you want to show in the grid
+        public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
 
         private bool _isSelected;
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { _isSelected = value; OnPropertyChanged(); } // Notify when checked!
+            set { _isSelected = value; OnPropertyChanged(); }
         }
     }
 }

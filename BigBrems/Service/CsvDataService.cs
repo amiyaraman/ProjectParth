@@ -57,14 +57,14 @@ namespace BigBrems.Services
                 foreach (var file in files)
                 {
                     var name = Path.GetFileNameWithoutExtension(file);
-                    list.Add(new Dataset { Id = name, Name = $"File: {name}" });
+                    //list.Add(new Dataset { Id = name, Name = $"File: {name}" });
                 }
             }
 
             // Debug fallback
             if (list.Count == 0)
             {
-                list.Add(new Dataset { Id = "DEBUG", Name = "No CSVs Found (Check Folder)" });
+                //list.Add(new Dataset { Id = "DEBUG", Name = "No CSVs Found (Check Folder)" });
             }
 
             return Task.FromResult(list);

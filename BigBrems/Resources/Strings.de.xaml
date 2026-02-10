@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="StrSearchData">Daten Suchen</system:String>
+    <system:String x:Key="StrSearchByDatasetIds">Suche nach Datensatz-IDs</system:String>
+    <system:String x:Key="StrSearchByCriteria">Suche nach Kriterien</system:String>
+    <system:String x:Key="StrDataType">Datentyp</system:String>
+    <system:String x:Key="StrDatasetIds">Datensatz-IDs</system:String>
+    <system:String x:Key="StrSelectDatasetIds">Datensatz-IDs auswählen</system:String>
+    <system:String x:Key="StrResults">Ergebnisse</system:String>
+    <system:String x:Key="StrChannels">Kanäle</system:String>
+    <system:String x:Key="StrDatasetIdCol">Datensatz-ID</system:String>
+    <system:String x:Key="StrNameCol">Name</system:String>
+    <system:String x:Key="StrChannelCol">Kanal</system:String>
+    <system:String x:Key="StrStatusCol">Status</system:String>
+    <system:String x:Key="StrNext">Weiter</system:String>
+</ResourceDictionary>

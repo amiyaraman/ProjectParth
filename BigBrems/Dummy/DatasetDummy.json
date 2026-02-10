@@ -1,0 +1,784 @@
+{
+  "data": [
+    {
+      "system": {
+        "directory_names": "DS-BRK-9942-A1B2",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-02-11T09:15:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "VOLKSWAGEN",
+        "description": "High-Speed Braking Dynamics Test - Nardo Ring"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Vehicle_Speed_GPS",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_FL",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_FR",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_RL",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_RR",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Brake_Pressure_Master_Cylinder",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Brake_Pressure_FL",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Brake_Pressure_FR",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Brake_Disc_Temp_FL",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Brake_Disc_Temp_FR",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Brake_Pedal_Travel",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Longitudinal_Acceleration",
+            "channel_unit": "g"
+          },
+          {
+            "channel_name": "Lateral_Acceleration",
+            "channel_unit": "g"
+          },
+          {
+            "channel_name": "ABS_Active_Flag",
+            "channel_unit": "bool"
+          },
+          {
+            "channel_name": "ESP_Active_Flag",
+            "channel_unit": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-NVH-3321-X9Y8",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-02-10T14:30:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "AUDI",
+        "description": "Cabin Noise and Vibration Analysis - Cobblestone"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Mic_Driver_Ear",
+            "channel_unit": "dB(A)"
+          },
+          {
+            "channel_name": "Mic_Passenger_Ear",
+            "channel_unit": "dB(A)"
+          },
+          {
+            "channel_name": "Mic_Rear_Seat_Left",
+            "channel_unit": "dB(A)"
+          },
+          {
+            "channel_name": "Mic_Rear_Seat_Right",
+            "channel_unit": "dB(A)"
+          },
+          {
+            "channel_name": "Accel_Seat_Track_Z",
+            "channel_unit": "m/s�"
+          },
+          {
+            "channel_name": "Accel_Steering_Column_Y",
+            "channel_unit": "m/s�"
+          },
+          {
+            "channel_name": "Accel_Floor_Panel_Z",
+            "channel_unit": "m/s�"
+          },
+          {
+            "channel_name": "Accel_Engine_Mount_X",
+            "channel_unit": "m/s�"
+          },
+          {
+            "channel_name": "Vehicle_Speed_OBD",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Engine_RPM",
+            "channel_unit": "rpm"
+          },
+          {
+            "channel_name": "Suspension_Travel_FL",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Suspension_Travel_FR",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Suspension_Travel_RL",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Suspension_Travel_RR",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Cabin_Pressure_Pulse",
+            "channel_unit": "Pa"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-SYS-7754-C3D4",
+        "status": "INACTIVE",
+        "data_type": "Logs"
+      },
+      "user": {
+        "date_created": "2026-02-05T11:00:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "PORSCHE",
+        "description": "Thermal Management Software - HIL Test Logs"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "ECU_State",
+            "channel_unit": "enum"
+          },
+          {
+            "channel_name": "Error_Code_Active",
+            "channel_unit": "hex"
+          },
+          {
+            "channel_name": "Coolant_Pump_PWM",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Radiator_Fan_Speed_Req",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Battery_SOC_Estimated",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Inverter_Temp_Max",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Motor_Stator_Temp",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Coolant_Temp_Radiator_In",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Coolant_Temp_Radiator_Out",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "AC_Compressor_Load",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Cabin_Heater_PTC_Power",
+            "channel_unit": "W"
+          },
+          {
+            "channel_name": "Thermal_Valve_Position_1",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Thermal_Valve_Position_2",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Software_Version_Hash",
+            "channel_unit": "string"
+          },
+          {
+            "channel_name": "Diagnostic_Session_Active",
+            "channel_unit": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-AERO-1122-E5F6",
+        "status": "ARCHIVED",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2025-11-20T08:45:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "BENTLEY",
+        "description": "Wind Tunnel Drag Coefficient Measurement"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Wind_Speed_Tunnel",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Drag_Force_X",
+            "channel_unit": "N"
+          },
+          {
+            "channel_name": "Lift_Force_Z_Front",
+            "channel_unit": "N"
+          },
+          {
+            "channel_name": "Lift_Force_Z_Rear",
+            "channel_unit": "N"
+          },
+          {
+            "channel_name": "Side_Force_Y",
+            "channel_unit": "N"
+          },
+          {
+            "channel_name": "Yawing_Moment",
+            "channel_unit": "Nm"
+          },
+          {
+            "channel_name": "Pitching_Moment",
+            "channel_unit": "Nm"
+          },
+          {
+            "channel_name": "Rolling_Moment",
+            "channel_unit": "Nm"
+          },
+          {
+            "channel_name": "Air_Density_Calculated",
+            "channel_unit": "kg/m�"
+          },
+          {
+            "channel_name": "Ambient_Temp_Tunnel",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Ambient_Pressure_Tunnel",
+            "channel_unit": "hPa"
+          },
+          {
+            "channel_name": "Ride_Height_Front",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Ride_Height_Rear",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Active_Spoiler_Angle",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Grille_Shutter_Status",
+            "channel_unit": "%"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-BRK-9945-A1C3",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-02-11T10:30:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "VOLKSWAGEN",
+        "description": "Low-Friction Surface Braking (Ice/Snow)"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Vehicle_Speed_Ref",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_FL",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_FR",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_RL",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Speed_RR",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Wheel_Slip_Ratio_FL",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Wheel_Slip_Ratio_FR",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Wheel_Slip_Ratio_RL",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Wheel_Slip_Ratio_RR",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Brake_Pressure_FL",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Brake_Pressure_FR",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "ABS_Pump_Motor_Current",
+            "channel_unit": "A"
+          },
+          {
+            "channel_name": "ABS_Valve_State_FL",
+            "channel_unit": "enum"
+          },
+          {
+            "channel_name": "Yaw_Rate",
+            "channel_unit": "deg/s"
+          },
+          {
+            "channel_name": "Steering_Wheel_Angle",
+            "channel_unit": "deg"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-POW-4489-B2N1",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-01-15T13:20:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "SKODA",
+        "description": "Engine Cold Start Emissions Test"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Engine_Speed",
+            "channel_unit": "rpm"
+          },
+          {
+            "channel_name": "Engine_Load",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Coolant_Temp_Engine",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Intake_Air_Temp",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Mass_Air_Flow",
+            "channel_unit": "g/s"
+          },
+          {
+            "channel_name": "Exhaust_Temp_Pre_Cat",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Exhaust_Temp_Post_Cat",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "O2_Sensor_Voltage_Bank1",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "O2_Sensor_Voltage_Bank2",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "Fuel_Injection_Pulse_Width",
+            "channel_unit": "ms"
+          },
+          {
+            "channel_name": "Fuel_Rail_Pressure",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Ignition_Timing_Advance",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Catalyst_Heater_Status",
+            "channel_unit": "bool"
+          },
+          {
+            "channel_name": "EGR_Valve_Position",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Ambient_Air_Pressure",
+            "channel_unit": "hPa"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-DYN-8812-M4V5",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-01-28T16:05:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "LAMBORGHINI",
+        "description": "Slalom Handling and Roll Rate"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Vehicle_Speed_GPS",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Roll_Angle",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Pitch_Angle",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Yaw_Angle",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Roll_Rate",
+            "channel_unit": "deg/s"
+          },
+          {
+            "channel_name": "Yaw_Rate",
+            "channel_unit": "deg/s"
+          },
+          {
+            "channel_name": "Lateral_Acceleration",
+            "channel_unit": "g"
+          },
+          {
+            "channel_name": "Longitudinal_Acceleration",
+            "channel_unit": "g"
+          },
+          {
+            "channel_name": "Steering_Wheel_Angle",
+            "channel_unit": "deg"
+          },
+          {
+            "channel_name": "Steering_Wheel_Torque",
+            "channel_unit": "Nm"
+          },
+          {
+            "channel_name": "Damper_Travel_FL",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Damper_Travel_FR",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Damper_Travel_RL",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Damper_Travel_RR",
+            "channel_unit": "mm"
+          },
+          {
+            "channel_name": "Active_Aero_Spoiler_Angle",
+            "channel_unit": "deg"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-CLM-2201-T8R9",
+        "status": "INACTIVE",
+        "data_type": "Logs"
+      },
+      "user": {
+        "date_created": "2025-12-10T09:00:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "SEAT",
+        "description": "HVAC System Cool Down Performance"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Ambient_Temp_Outside",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Solar_Radiation_Sensor",
+            "channel_unit": "W/m�"
+          },
+          {
+            "channel_name": "Cabin_Temp_Avg",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cabin_Temp_Driver_Zone",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cabin_Temp_Passenger_Zone",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Evaporator_Temp",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "AC_Compressor_Speed",
+            "channel_unit": "rpm"
+          },
+          {
+            "channel_name": "AC_Refrigerant_Pressure_High",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "AC_Refrigerant_Pressure_Low",
+            "channel_unit": "bar"
+          },
+          {
+            "channel_name": "Blower_Motor_Voltage",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "Air_Distribution_Flap_Defrost",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Air_Distribution_Flap_Face",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Air_Distribution_Flap_Feet",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Recirculation_Flap_Position",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "HVAC_Target_Temp_Set",
+            "channel_unit": "�C"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-ADAS-5533-Q7W2",
+        "status": "OPERATIONAL",
+        "data_type": "Sensor"
+      },
+      "user": {
+        "date_created": "2026-02-01T14:45:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "AUDI",
+        "description": "Adaptive Cruise Control Radar Target Tracking"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "Ego_Vehicle_Speed",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Radar_Target_01_ID",
+            "channel_unit": "id"
+          },
+          {
+            "channel_name": "Radar_Target_01_Distance",
+            "channel_unit": "m"
+          },
+          {
+            "channel_name": "Radar_Target_01_Relative_Speed",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Radar_Target_01_Lateral_Pos",
+            "channel_unit": "m"
+          },
+          {
+            "channel_name": "Radar_Target_02_ID",
+            "channel_unit": "id"
+          },
+          {
+            "channel_name": "Radar_Target_02_Distance",
+            "channel_unit": "m"
+          },
+          {
+            "channel_name": "Radar_Target_02_Relative_Speed",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "Camera_Lane_Left_Distance",
+            "channel_unit": "m"
+          },
+          {
+            "channel_name": "Camera_Lane_Right_Distance",
+            "channel_unit": "m"
+          },
+          {
+            "channel_name": "Camera_Lane_Confidence",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "ACC_Target_Speed_Set",
+            "channel_unit": "km/h"
+          },
+          {
+            "channel_name": "ACC_Brake_Request_Decel",
+            "channel_unit": "m/s�"
+          },
+          {
+            "channel_name": "ACC_Drive_Off_Request",
+            "channel_unit": "bool"
+          },
+          {
+            "channel_name": "Driver_Intervention_Flag",
+            "channel_unit": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "system": {
+        "directory_names": "DS-BAT-6699-L5P0",
+        "status": "OPERATIONAL",
+        "data_type": "Logs"
+      },
+      "user": {
+        "date_created": "2026-02-09T10:10:00.000+05:30"
+      },
+      "measurement": {
+        "brand": "VOLKSWAGEN",
+        "description": "High Voltage Battery Fast Charging Cycle"
+      },
+      "metadata": {
+        "Channels": [
+          {
+            "channel_name": "HV_Battery_Voltage",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "HV_Battery_Current",
+            "channel_unit": "A"
+          },
+          {
+            "channel_name": "HV_Battery_SOC_Display",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "HV_Battery_SOC_True",
+            "channel_unit": "%"
+          },
+          {
+            "channel_name": "Cell_Voltage_Min",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "Cell_Voltage_Max",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "Cell_Voltage_Avg",
+            "channel_unit": "V"
+          },
+          {
+            "channel_name": "Cell_Temp_Min",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cell_Temp_Max",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cell_Temp_Avg",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cooling_Circuit_Inlet_Temp",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Cooling_Circuit_Outlet_Temp",
+            "channel_unit": "�C"
+          },
+          {
+            "channel_name": "Charging_Station_Power_Limit",
+            "channel_unit": "kW"
+          },
+          {
+            "channel_name": "Charging_Station_Current_Req",
+            "channel_unit": "A"
+          },
+          {
+            "channel_name": "BMS_Contactor_State_Main",
+            "channel_unit": "enum"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Dummy\DatasetDummy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Dummy\DS_101.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
