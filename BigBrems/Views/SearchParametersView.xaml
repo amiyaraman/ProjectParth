@@ -11,67 +11,212 @@
             <TextBlock Text="{DynamicResource StrSearchData}" FontSize="20" FontWeight="Bold" Margin="0,0,0,20" Foreground="#1E293B"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,25">
-                <RadioButton Content="{DynamicResource StrSearchByDatasetIds}" IsChecked="True" Margin="0,0,30,0" Foreground="#475569" FontWeight="Medium"/>
-                <RadioButton Content="{DynamicResource StrSearchByCriteria}" Foreground="#475569" FontWeight="Medium"/>
+                <RadioButton Content="{DynamicResource StrSearchByDatasetIds}" 
+                             IsChecked="{Binding IsSearchByIdMode}" 
+                             Margin="0,0,30,0" Foreground="#475569" FontWeight="Medium"/>
+                <RadioButton Content="{DynamicResource StrSearchByCriteria}" 
+                             IsChecked="{Binding IsSearchByCriteriaMode}" 
+                             Foreground="#475569" FontWeight="Medium"/>
             </StackPanel>
 
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Margin="0,0,20,0">
-                    <TextBlock Text="DataPool" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
-                    <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
-                              ItemsSource="{Binding AvailableDataPools}"
-                              SelectedItem="{Binding SelectedDataPool, Mode=TwoWay}"
-                              DisplayMemberPath="Name"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSearchByIdMode}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
 
-                <StackPanel Grid.Column="1" Margin="0,0,20,0">
-                    <TextBlock Text="{DynamicResource StrDataType}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
-                    <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
-                              ItemsSource="{Binding AvailableDataTypes}"
-                              SelectedItem="{Binding SelectedDataType, Mode=TwoWay}">
-                    </ComboBox>
-                </StackPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="2" Margin="0,0,20,0">
-                    <TextBlock Text="{DynamicResource StrDatasetIds}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+                    <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                        <TextBlock Text="{DynamicResource StrDataPool}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+                        <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
+                                  ItemsSource="{Binding AvailableDataPools}" 
+                                  SelectedItem="{Binding SelectedDataPool, Mode=TwoWay}" 
+                                  DisplayMemberPath="Name"/>
+                    </StackPanel>
 
-                    <TextBox Text="{Binding DatasetSearchText, UpdateSourceTrigger=PropertyChanged}" 
-                             Height="38" Padding="10,8" BorderBrush="#CBD5E1" Margin="0,0,0,5"
-                             Tag="{DynamicResource StrSelectDatasetIds}"/>
+                    <StackPanel Grid.Column="1" Margin="0,0,20,0">
+                        <TextBlock Text="{DynamicResource StrDataType}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+                        <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
+                                  ItemsSource="{Binding AvailableDataTypes}" 
+                                  SelectedItem="{Binding SelectedDataType, Mode=TwoWay}">
+                        </ComboBox>
+                    </StackPanel>
 
-                    <Border BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="4" Height="120" Background="#F8FAFC">
-                        <ListBox ItemsSource="{Binding AvailableDatasetsForSelection}" BorderThickness="0" Background="Transparent" Margin="2">
-                            <ListBox.ItemTemplate>
+                    <StackPanel Grid.Column="2" Margin="0,0,20,0">
+                        <TextBlock Text="{DynamicResource StrDatasetIds}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+
+                        <TextBox Text="{Binding DatasetSearchText, UpdateSourceTrigger=PropertyChanged}" 
+                                 Height="38" Padding="10,8" BorderBrush="#CBD5E1" Margin="0,0,0,5"
+                                 Tag="{DynamicResource StrSelectDatasetIds}"/>
+
+                        <Border BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="4" Height="120" Background="#F8FAFC">
+                            <ListBox ItemsSource="{Binding AvailableDatasetsForSelection}" BorderThickness="0" Background="Transparent" Margin="2">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5">
+                                            <TextBlock Text="{Binding Id}" Foreground="#334155"/>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" VerticalAlignment="Bottom">
+                        <Button Content="{DynamicResource StrSearchBtn}" Command="{Binding SearchCommand}" 
+                                Background="#0F172A" Foreground="White" FontWeight="SemiBold" Height="38" Width="100" BorderThickness="0" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSearchByCriteriaMode}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <TextBlock Text="{DynamicResource StrDataPool}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+                            <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
+                  ItemsSource="{Binding AvailableDataPools}" 
+                  SelectedItem="{Binding SelectedDataPool, Mode=TwoWay}" 
+                  DisplayMemberPath="Name"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="0,0,20,0">
+                            <TextBlock Text="{DynamicResource StrDataType}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+                            <ComboBox Height="38" Padding="10,0,30,0" BorderBrush="#CBD5E1" VerticalContentAlignment="Center" Background="White"
+                  ItemsSource="{Binding AvailableDataTypes}" 
+                  SelectedItem="{Binding SelectedDataType, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="0,0,20,0">
+                            <TextBlock Text="{DynamicResource StrDatasetIds}" Foreground="#64748B" FontWeight="Medium" Margin="0,0,0,8"/>
+
+                            <TextBox Text="{Binding DatasetSearchText, UpdateSourceTrigger=PropertyChanged}" 
+                 Height="38" Padding="10,8" BorderBrush="#CBD5E1" Margin="0,0,0,5"
+                 Tag="{DynamicResource StrSelectDatasetIds}"/>
+
+                            <Border BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="4" Height="120" Background="#F8FAFC">
+                                <ListBox ItemsSource="{Binding AvailableDatasetsForSelection}" BorderThickness="0" Background="Transparent" Margin="2">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5">
+                                                <TextBlock Text="{Binding Id}" Foreground="#334155"/>
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="180" Margin="0,0,0,15">
+                        <ItemsControl ItemsSource="{Binding CriteriaList}">
+                            <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5">
-                                        <TextBlock Text="{Binding Id}" Foreground="#334155"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Border>
-                </StackPanel>
+                                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="3" VerticalAlignment="Bottom" Margin="0,0,0,0">
-                    <Button Content="Search" 
-        Command="{Binding SearchCommand}" 
-        Background="#0F172A" Foreground="White" FontWeight="SemiBold" Height="38" Width="100" BorderThickness="0" Cursor="Hand">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </StackPanel>
+                                            <ComboBox Grid.Column="0" ItemsSource="{Binding LogicalOptions}" SelectedItem="{Binding LogicalLink}" 
+                                                      Width="70" Height="34" Margin="0,0,10,0" BorderBrush="#CBD5E1" Background="White"/>
+
+                                            <ComboBox Grid.Column="1" ItemsSource="{Binding DataContext.AvailableSearchKeys, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                      SelectedItem="{Binding SelectedKey}" Height="34" Margin="0,0,10,0" BorderBrush="#CBD5E1" Background="White"/>
+
+                                            <ComboBox Grid.Column="2" ItemsSource="{Binding ConditionOptions}" SelectedItem="{Binding Condition}" 
+                                                      Height="34" Margin="0,0,10,0" BorderBrush="#CBD5E1" Background="White"/>
+
+                                            <TextBox Grid.Column="3" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Height="34" Padding="8,0" Margin="0,0,10,0" BorderBrush="#CBD5E1"/>
+
+                                            <CheckBox Grid.Column="4" Content="{DynamicResource StrCaseSensitive}" IsChecked="{Binding IsCaseSensitive}" 
+                                                      VerticalAlignment="Center" Foreground="#475569" Margin="0,0,15,0"/>
+
+                                            <Button Grid.Column="5" Content="✕" Width="28" Height="28" Background="#FEE2E2" Foreground="#EF4444" 
+                                                    BorderThickness="0" Cursor="Hand" ToolTip="{DynamicResource StrRemoveCondition}"
+                                                    Command="{Binding DataContext.RemoveCriterionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                    CommandParameter="{Binding}">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2">
+                        <Button Content="{DynamicResource StrAddCondition}" Command="{Binding AddCriterionCommand}" 
+                                HorizontalAlignment="Left" Background="Transparent" Foreground="#2563EB" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand"/>
+
+                        <Button Content="{DynamicResource StrSearchBtn}" Command="{Binding SearchCommand}" 
+                                HorizontalAlignment="Right" Background="#0F172A" Foreground="White" FontWeight="SemiBold" Height="38" Width="100" BorderThickness="0" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Grid>
+
             </Grid>
         </StackPanel>
     </Border>

@@ -21,7 +21,30 @@ namespace BigBrems.ViewModels
         {
             SearchCommand = new RelayCommand(ExecuteSearch);
             NextCommand = new RelayCommand(ExecuteNext);
+            AddCriterionCommand = new RelayCommand(ExecuteAddCriterion);
+            RemoveCriterionCommand = new RelayCommand(ExecuteRemoveCriterion);
+
+            // Add one default empty row to the builder so it's not blank
+            CriteriaList.Add(new SearchCriterion { SelectedKey = AvailableSearchKeys.FirstOrDefault() });
             LoadJsonData();
+        }
+
+        private void ExecuteAddCriterion(object parameter)
+        {
+            CriteriaList.Add(new SearchCriterion { SelectedKey = AvailableSearchKeys.FirstOrDefault() });
+        }
+
+        private void ExecuteRemoveCriterion(object parameter)
+        {
+            if (parameter is SearchCriterion criterionToRemove)
+            {
+                CriteriaList.Remove(criterionToRemove);
+                // Ensure there is always at least one row
+                if (CriteriaList.Count == 0)
+                {
+                    CriteriaList.Add(new SearchCriterion { SelectedKey = AvailableSearchKeys.FirstOrDefault() });
+                }
+            }
         }
 
         private void LoadJsonData()
@@ -88,6 +111,8 @@ namespace BigBrems.ViewModels
                 var myCustomDataTypes = new List<string> { "Sensor", "Logs", "Video", "Calibration" };
                 AvailableDataTypes = new ObservableCollection<string>(myCustomDataTypes);
 
+
+
                 // Select the first item. This will trigger the 'SelectedDataType' setter,
                 // which automatically fires 'UpdateAvailableDatasets()' to filter the list.
                 SelectedDataType = myCustomDataTypes.FirstOrDefault();
@@ -103,6 +128,47 @@ namespace BigBrems.ViewModels
         // ==========================================
 
         public ObservableCollection<string> AvailableDataTypes { get; set; }
+        // ==========================================
+        // UI TOGGLE STATE (Radio Buttons)
+        // ==========================================
+        private bool _isSearchByIdMode = true; // Default to the first view
+        public bool IsSearchByIdMode
+        {
+            get => _isSearchByIdMode;
+            set { _isSearchByIdMode = value; OnPropertyChanged(); }
+        }
+
+        private bool _isSearchByCriteriaMode;
+        public bool IsSearchByCriteriaMode
+        {
+            get => _isSearchByCriteriaMode;
+            set { _isSearchByCriteriaMode = value; OnPropertyChanged(); }
+        }
+
+        // ==========================================
+        // CRITERIA BUILDER PROPERTIES
+        // ==========================================
+
+        // Optional Dataset ID for the top of the Criteria view
+        private string _criteriaDatasetId;
+        public string CriteriaDatasetId
+        {
+            get => _criteriaDatasetId;
+            set { _criteriaDatasetId = value; OnPropertyChanged(); }
+        }
+
+        // The list of dynamic query rows
+        public ObservableCollection<SearchCriterion> CriteriaList { get; set; } = new ObservableCollection<SearchCriterion>();
+
+        // The keys users can search by
+        public ObservableCollection<string> AvailableSearchKeys { get; set; } = new ObservableCollection<string>
+        {
+            "Brand", "Status", "Name", "Description", "DataType"
+        };
+
+        // Commands for adding/removing rows
+        public ICommand AddCriterionCommand { get; }
+        public ICommand RemoveCriterionCommand { get; }
 
         private string _selectedDataType;
         public string SelectedDataType
@@ -172,14 +238,62 @@ namespace BigBrems.ViewModels
 
         private void ExecuteSearch(object parameter)
         {
-            // 1. Gather the checked datasets
-            var checkedDatasets = _allDatasets.Where(d => d.IsSelected).ToList();
+            List<Dataset> results = new List<Dataset>();
 
-            // 2. FORCE A MESSAGE BOX TO PROVE THE BUTTON WORKS
-            //MessageBox.Show($"Search button clicked!\nYou have {checkedDatasets.Count} datasets checked.", "Diagnostic Test");
+            if (IsSearchByIdMode)
+            {
+                // VIEW 1 LOGIC: Just get the datasets where the CheckBox is ticked
+                results = _allDatasets.Where(d => d.IsSelected).ToList();
+            }
+            else if (IsSearchByCriteriaMode)
+            {
+                // VIEW 2 LOGIC: Advanced Builder
 
-            // 3. Update the UI
-            SearchResults = new ObservableCollection<Dataset>(checkedDatasets);
+                // 1. Grab the datasets the user specifically checked in the ListBox
+                var checkedDatasets = _allDatasets.Where(d => d.IsSelected).ToList();
+
+                // 2. If they didn't check any specific boxes, fallback to searching ALL datasets of the selected DataType
+                var query = checkedDatasets.Any()
+                    ? checkedDatasets.AsEnumerable()
+                    : _allDatasets.Where(d => d.DataType == SelectedDataType);
+
+                // 3. Apply all the user's custom Key-Value rows to that list
+                foreach (var criteria in CriteriaList)
+                {
+                    if (string.IsNullOrWhiteSpace(criteria.SelectedKey) || string.IsNullOrWhiteSpace(criteria.Value))
+                        continue;
+
+                    query = query.Where(dataset =>
+                    {
+                        string datasetValue = "";
+
+                        if (dataset.Properties.ContainsKey(criteria.SelectedKey))
+                        {
+                            datasetValue = dataset.Properties[criteria.SelectedKey];
+                        }
+                        else if (criteria.SelectedKey == "DataType")
+                        {
+                            datasetValue = dataset.DataType;
+                        }
+
+                        if (string.IsNullOrEmpty(datasetValue)) return false;
+
+                        var comparisonType = criteria.IsCaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+
+                        if (criteria.Condition == "Equals")
+                            return datasetValue.Equals(criteria.Value, comparisonType);
+                        if (criteria.Condition == "Starts With")
+                            return datasetValue.StartsWith(criteria.Value, comparisonType);
+
+                        return datasetValue.Contains(criteria.Value, comparisonType);
+                    });
+                }
+
+                results = query.ToList();
+            }
+
+            // Update the bottom UI table
+            SearchResults = new ObservableCollection<Dataset>(results);
             SelectedDataset = null;
             DisplayedChannels?.Clear();
         }
@@ -303,6 +417,7 @@ namespace BigBrems.ViewModels
             }
         }
     }
+
 
     // ==========================================================
     // JSON DTOs 
